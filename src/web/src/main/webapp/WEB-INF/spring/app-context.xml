@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       ">
+
+    <!-- <context:property-placeholder location="classpath*:${config.file}"/>-->
+
+    <bean id="baseAction" abstract="true">
+        <!-- <property name="webConfiguration" ref="webConfiguration"/>-->
+        <property name="demoService" ref="demoService"/>
+    </bean>
+
+
+    <bean id="demoAction" class="cl.bennu.labs.spring.web.DemoAction" parent="baseAction" scope="prototype">
+        <property name="demoService" ref="demoService"/>
+    </bean>
+
+    <bean id="demoService" class="cl.bennu.labs.spring.core.business.impl.DemoService">
+
+    </bean>
+
+    <bean id="alert" class="cl.bennu.labs.spring.quartz.AlertBatch"/>
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="alert"/>
+        <property name="targetMethod" value="doIt"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail"/>
+        <property name="cronExpression" value="0 0/1 * * * ?"/>
+    </bean>
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="trigger"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

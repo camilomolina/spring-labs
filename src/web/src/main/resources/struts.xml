@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <constant name="struts.objectFactory" value="spring" />
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <constant name="struts.devMode" value="false"/>
+    <constant name="struts.enable.SlashesInActionNames" value="true"/>
+    <constant name="struts.action.extension" value="do"/>
+    <constant name="struts.ui.theme" value="simple"/>
+
+    <package name="common-labs" abstract="true" extends="struts-default,json-default">
+        <global-results>
+            <result name="logoutPage">/jsp/error.jsp</result>
+            <result type="json" name="successJSON">
+                <param name="enumAsBean">true</param>
+                <!--<param name="enableGZIP">true</param>-->
+                <param name="root">*</param>
+            </result>
+            <result name="index">/jsp/error.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="index"/>
+        </global-exception-mappings>
+    </package>
+
+    <package name="demo-ns" namespace="/demo-ns" extends="common-labs">
+        <action name="demo/*" class="demoAction" method="{1}" >
+            <result name="success">/jsp/demo-ns/demo.jsp</result>
+        </action>
+
+
+    </package>
+
+</struts>
