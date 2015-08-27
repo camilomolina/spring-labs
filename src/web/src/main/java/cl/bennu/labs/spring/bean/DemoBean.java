@@ -8,4 +8,13 @@ package cl.bennu.labs.spring.bean;
  */
 public class DemoBean {
 
+    private String to;
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
 }

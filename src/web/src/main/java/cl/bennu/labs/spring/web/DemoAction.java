@@ -33,10 +33,7 @@ public class DemoAction extends BaseAction {
         // action de inicio
         ContextDTO contextDTO = getContext();
 
-        Demo demo = new Demo();
-        demo.setGenderEnum(GenderEnum.FEMALE);
-
-        demoService.method1(contextDTO, demo);
+        demoService.sendMail(contextDTO, demoBean.getTo());
 
         return SUCCESS;
     }

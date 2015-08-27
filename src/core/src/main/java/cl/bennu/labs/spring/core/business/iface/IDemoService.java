@@ -8,4 +8,6 @@ public interface IDemoService {
 
     void method1(ContextDTO contextDTO, Demo demo);
 
+    void sendMail(ContextDTO contextDTO, String to);
+
 }
